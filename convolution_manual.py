@@ -123,11 +123,13 @@ if __name__ == '__main__':
   G_Conv_Img = convolutional(G_Img,width,height)
   B_Conv_Img = convolutional(B_Img,width,height)
 
-  display_img(R_Img)
-  display_img(R_Conv_Img)
+  # display_img(R_Img)
+  # display_img(R_Conv_Img)
 
-  display_img(G_Img)
-  display_img(G_Conv_Img)
+  # display_img(G_Img)
+  # display_img(G_Conv_Img)
 
-  display_img(B_Img)
-  display_img(B_Conv_Img)
+  # display_img(B_Img)
+  # display_img(B_Conv_Img)
+
+  display_img( np.absolute(R_Img - B_Img ) )
