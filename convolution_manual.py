@@ -26,38 +26,20 @@ import os
 def read_RGB_image(img_path):
   RGB_Imgs = []
   try:
-    #img = np.array(imageio.imread(img_path), dtype=np.uint8)
+    img = []
     with open(img_path, "r") as fp:
       fp.readline()
       w_h = fp.readline().strip().split()
       width, height = int(w_h[0]), int(w_h[1])
-      pixes = np.zeros((height,width*3), dtype=int)
-      RGB_Imgs = np.zeros((3,height,width), dtype=int)
       fp.readline()
-      to_save = []
-      h=0
-      for line in fp:
-        values = [int(i) for i in line.split()] 
-        if len(values) == width *3:
-          pixes[h] = np.array(values)
-          h+=1
-        elif len(values) >= 0:
-          to_save += values
-          if len(to_save) == width *3:
-            pixes[h] = np.array(to_save)
-            h+=1
-            to_save = []
-
-      RGB_Imgs[0] = pixes[ : , ::3]
-      RGB_Imgs[1] = pixes[ : , 1::3]
-      RGB_Imgs[2] = pixes[ : , 2::3]
-
+      img = np.array([int(x) for x in fp.read().strip().split()]).reshape(height, width, 3).astype(np.uint8)
+      img = img.transpose()
   except Exception as e:
     print("Img " + str(img_path) + " do not exist")
     print(e)
     sys.exit(1)
 
-  return RGB_Imgs
+  return img
 
 def display_img(img):
   # Plot the input
@@ -111,9 +93,11 @@ def convolutional(img, width,height, filter_conv=[[0,-1,0], [-1,4,-1], [0,-1,0]]
 
 if __name__ == '__main__':
 
-  img_file = "Dataset/x.ppm"
+  img_file = "Dataset/x_1.ppm"
   RGB_Imgs = read_RGB_image(img_file)
-  R_Img,G_Img,B_Img = RGB_Imgs[0], RGB_Imgs[1], RGB_Imgs[2]
+  R_Img,G_Img,B_Img =  RGB_Imgs[0][:][:].transpose(), RGB_Imgs[1][:][:].transpose(), RGB_Imgs[2][:][:].transpose()
+
+
   width,height = get_width_height(R_Img)
   # display_img(R_Img)
   # display_img(G_Img)
@@ -132,4 +116,10 @@ if __name__ == '__main__':
   # display_img(B_Img)
   # display_img(B_Conv_Img)
 
-  display_img( np.absolute(R_Img - B_Img ) )
+  display_img( np.absolute(G_Img - B_Img ) )
+  #g_b = np.abs(G_Img - B_Img )
+  #save_img(g_b, path_to='Dataset/out.ppm')
+  # for h in range(len(G_Conv_Img)):
+  #   for w in range(len(G_Conv_Img[h])):
+  #     print(G_Conv_Img[h][w],end=" ")
+  #   print()
