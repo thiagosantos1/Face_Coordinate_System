@@ -13,33 +13,10 @@ convert 1.png -compress none x.ppm
 """
 
 import matplotlib.pyplot as plt
-#from scipy import misc
 import numpy as np
 from math import ceil
-import random
 import imageio 
-import sys
-from math import ceil
 import scipy.misc
-import os
-
-def read_RGB_image(img_path):
-  RGB_Imgs = []
-  try:
-    img = []
-    with open(img_path, "r") as fp:
-      fp.readline()
-      w_h = fp.readline().strip().split()
-      width, height = int(w_h[0]), int(w_h[1])
-      fp.readline()
-      img = np.array([int(x) for x in fp.read().strip().split()]).reshape(height, width, 3).astype(np.uint8)
-      img = img.transpose()
-  except Exception as e:
-    print("Img " + str(img_path) + " do not exist")
-    print(e)
-    sys.exit(1)
-
-  return img
 
 def display_img(img):
   # Plot the input
@@ -47,7 +24,6 @@ def display_img(img):
   plt.imshow(img, cmap=plt.cm.gray)
   plt.axis('off')
   plt.show()
-
 
 
 def save_img(img, path_to='dataset/out.pgm'):
@@ -93,33 +69,4 @@ def convolutional(img, width,height, filter_conv=[[0,-1,0], [-1,4,-1], [0,-1,0]]
 
 if __name__ == '__main__':
 
-  img_file = "Dataset/x_1.ppm"
-  RGB_Imgs = read_RGB_image(img_file)
-  R_Img,G_Img,B_Img =  RGB_Imgs[0][:][:].transpose(), RGB_Imgs[1][:][:].transpose(), RGB_Imgs[2][:][:].transpose()
-
-
-  width,height = get_width_height(R_Img)
-  # display_img(R_Img)
-  # display_img(G_Img)
-  # display_img(B_Img)
-  #img = convolutional(img,width,height)
-  R_Conv_Img = convolutional(R_Img,width,height)
-  G_Conv_Img = convolutional(G_Img,width,height)
-  B_Conv_Img = convolutional(B_Img,width,height)
-
-  # display_img(R_Img)
-  # display_img(R_Conv_Img)
-
-  # display_img(G_Img)
-  # display_img(G_Conv_Img)
-
-  # display_img(B_Img)
-  # display_img(B_Conv_Img)
-
-  display_img( np.absolute(G_Img - B_Img ) )
-  #g_b = np.abs(G_Img - B_Img )
-  #save_img(g_b, path_to='Dataset/out.ppm')
-  # for h in range(len(G_Conv_Img)):
-  #   for w in range(len(G_Conv_Img[h])):
-  #     print(G_Conv_Img[h][w],end=" ")
-  #   print()
+  pass
