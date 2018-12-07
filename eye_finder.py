@@ -35,25 +35,56 @@ def read_RGB_image(img_path):
 
   return img
 
+# function to get how many of its closest K neigbors are white.
+def dfs_intesity(avlb_pixel, img, i,j, min_y, min_x):
+  h = min_y + i
+  w = min_x + j
+  avlb_pixel[i][j] = 0
+
+  for nbr in [i-1, i+1]:
+    if avlb_pixel[nbr][j] ==1:
+      if img[h][w] ==255:
+        sum_wt +=1
+        dfs_intesity(avlb_pixel, img, nbr,j, min_y, min_x)
+      else:
+        return sum_wt
+      
+
+
+  for nbr in [j-1, j+1]:
+    if avlb_pixel[i][nbr] ==1:
+      dfs_intesity(avlb_pixel, img, i,nbr, min_y, min_x)
+
+
 def eye_finder(R_img, G_img, B_img):
   width,height = get_width_height(R_img)
-  R_Conv_Img = convolutional(R_img,width,height)
-  G_Conv_Img = convolutional(G_img,width,height)
-  B_Conv_Img = convolutional(B_img,width,height)
+  R_G = np.absolute(R_img - G_img ) 
+  R_B = np.absolute(R_img - B_img )
+  G_B = np.absolute(G_img - B_img ) 
 
-  display_img( np.absolute(R_img - G_img ) )
-  display_img( np.absolute(R_img - B_img ) )
-  display_img( np.absolute(G_img - B_img ) )
-  display_img( np.absolute(R_img - G_img - B_img ) )
+  # define trashhold
+  min_x,max_x = int(width * 0.13),int(width * 0.88)
+  min_y,max_y = int(0.2 * height),int(0.65 * height)
+  #display_img(R_G)
+  #display_img(R_B)
+  #display_img(G_B)
+  num_p_x = max_x-min_x
+  num_p_y = max_y-min_y
+  avlb_pixel = np.ones((num_p_y, num_p_x ), dtype=int) # if pixes is available for DFS
+  for i in range(num_p_y):
+    for j in range(num_p_x):
+      if avlb_pixel[i][j] ==1:
+        intesity =  dfs_intesity(avlb_pixel,G_B,i,j, min_y, min_x)
+        if intesity > 0: # means the area searched has some white pixes(may be an eye) 
+          pass
 
-  display_img( np.absolute(R_Conv_Img - G_Conv_Img ) )
-  display_img( np.absolute(R_Conv_Img - B_Conv_Img ) )
-  display_img( np.absolute(G_Conv_Img - B_Conv_Img ) )
-  display_img( np.absolute(R_Conv_Img - G_Conv_Img - B_Conv_Img ) )
+  #wh     = np.argpartition(white_intensity, num_wh)
+
+
 
 if __name__ == '__main__':
 
-  img_file = "Dataset/x.ppm"
+  img_file = "Dataset/faces_10.ppm"
   if len(sys.argv) >= 2:
     img_file = sys.argv[1]
     
