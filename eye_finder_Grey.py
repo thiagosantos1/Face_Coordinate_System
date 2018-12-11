@@ -87,7 +87,7 @@ def eye_finder(img):
   num_p_y = max_y-min_y
 
   cp_img = img[min_y:max_y, min_x:max_x]
-  save_img(cp_img, "center_img.pgm")
+  save_img(cp_img, "center_img.png")
 
   white_pixels = np.zeros((num_p_y, num_p_x ), dtype=int) # if pixes is available for DFS
   white_pixels = img[min_y:max_y, min_x:max_x] == 255
@@ -100,33 +100,41 @@ def eye_finder(img):
 if __name__ == "__main__":
 
   np.set_printoptions(threshold=np.nan,linewidth=200)
-  img_file = "Dataset/Grey/faces_114.pgm"
-  if len(sys.argv) < 4:
-    print("Usage: < Image, min range, max range >")
-    sys.exit(1)
+  img_file = "Dataset/PNG/faces_114.png" # Dataset/PNG/faces_614.png 
+  tar1 = 20
+  tar2 = 50 
 
-  tar1 = int(sys.argv[2])
-  tar2 = int(sys.argv[3])
-  img = read_image(sys.argv[1])
-  img_original = read_image(sys.argv[1])
+  if len(sys.argv) >= 4:
+    img_file = sys.argv[1]
+    tar1 = int(sys.argv[2])
+    tar2 = int(sys.argv[3])
 
-  w,h = get_width_height(img)
+  elif len(sys.argv) == 2:
+    img_file = sys.argv[1]
 
-  for i in range(len(img)):
-    for j in range(len(img[i])):
-      if img[i][j] < tar1 or img[i][j] > tar2:
-        img[i][j] = 0
+  img_RGB = read_image(img_file)
+
+  img_grey = cv2.cvtColor(img_RGB, cv2.COLOR_BGR2GRAY)
+
+
+  w,h = get_width_height(img_grey)
+
+  for i in range(len(img_grey)):
+    for j in range(len(img_grey[i])):
+      if img_grey[i][j] < tar1 or img_grey[i][j] > tar2:
+        img_grey[i][j] = 0
       else:
-        img[i][j] = 255
+        img_grey[i][j] = 255
 
-  stg_cpt = eye_finder(img)
-  img_RGB = cv2.cvtColor(img_original, cv2.COLOR_GRAY2RGB)
+  stg_cpt = eye_finder(img_grey)
   
   for cpt in stg_cpt:
     img_RGB = cv2.rectangle(img_RGB, (cpt[1]-8,cpt[0]-8), (cpt[3]+8,cpt[2]+8), (255,0,100),2)
 
-  save_img(img, "img.pgm")
-  save_img(img_RGB, "out.pgm")
+  save_img(img_grey, "img.png")
+  save_img(img_RGB, "out.png")
+
+  display_img(img_RGB)
 
 
 
