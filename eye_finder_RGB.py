@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # chmod u+x
-# -*- coding: utf-8 -*-  
+# -*- coding: utf-8 -*-   
 
 """
 Author: Thiago Santos
@@ -84,7 +84,7 @@ def eye_finder(R_img, G_img, B_img):
 
 if __name__ == '__main__':
 
-  img_file = "Dataset/faces_10.ppm"
+  img_file = "Dataset/RGB/faces_10.ppm"
   if len(sys.argv) >= 2:
     img_file = sys.argv[1]
     
