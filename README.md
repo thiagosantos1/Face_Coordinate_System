@@ -7,6 +7,7 @@ In this project,I will investigate and build a face coordinate system, which has
   
   2) Use the idea of pixel intensity to determine the "most" important pixels which may represent an important feature.
 </br>
+
 # Experiments
 </br> Results of our convolutions and pixel intensity detection
   <table border=1>
