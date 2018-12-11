@@ -14,7 +14,7 @@ Results of our convolutions and pixel intensity detection
      <tr align='center' > 
         <td>Image after pixel intensity detection</td>         
         <td>Center of image --> Where the eyes certainly are </td>
-         <td>Output image with rectangles in all features found it </td>
+         <td>Original image with rectangles in all features found it </td>
       </tr>
      <tr align='center' > 
         <td><img src="https://github.com/thiagosantos1/Face_Coordinate_System/blob/master/img.png" width="400" </td>         
